@@ -16,8 +16,7 @@ app.use(express.urlencoded({ extended: false }));
 // ======================================================
 const connectToDatabase = require("./models/Database");
 
-const mongoURI =
-  "mongodb+srv://alexkoh95:mbZaJK4VqPAwjac@cluster0.fsopz.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
+const mongoURI = process.env.MONGO_URI;
 connectToDatabase(mongoURI);
 
 // ======================================================

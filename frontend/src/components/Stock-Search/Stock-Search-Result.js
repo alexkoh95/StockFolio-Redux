@@ -5,7 +5,7 @@ import {
   handleSubmitSearchStockData,
 } from "../../slices/Stock-Search-Slice/Stock-Search-Slice";
 
-const APIKEY = "TD5BNJPDBLJKBVAE";
+const APIKEY = process.env.APIKEY;
 
 const StockSearchResult = () => {
   const state = useSelector((state) => state.stockSearch);
