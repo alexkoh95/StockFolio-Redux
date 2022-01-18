@@ -1,25 +1,20 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  stockSearchActions,
-  handleSubmitSearchStockData,
-} from "../../slices/Stock-Search-Slice/Stock-Search-Slice";
-
-const APIKEY = process.env.APIKEY;
+import { stockSearchActions } from "../../slices/Stock-Search-Slice/Stock-Search-Slice";
+import StockSearchResultModal from "./Stock-Search-Result-Modal";
+// require("dotenv").config({
+//   path: "/Users/AlexanderKoh_1/Documents/GitHub/StockFolio-Redux/.env",
+// });
+// require("dotenv").config();
 
 const StockSearchResult = () => {
   const state = useSelector((state) => state.stockSearch);
   const dispatch = useDispatch();
+  const APIKEY = "TD5BNJPDBLJKBVAE";
 
   const displayStockSearchResults = () => {
-    if ([]) {
-      return (
-        <div className="Search-Container grid">
-          <div className="py-40 m-3 bg-white bg-opacity-40 shadow-lg rounded-lg">
-            Empty Field
-          </div>
-        </div>
-      );
+    if (state.stockData.length !== 0) {
+      return <StockSearchResultModal />;
     } else {
       return <div>Hello, this is supposed to be search results</div>;
     }
@@ -34,22 +29,24 @@ const StockSearchResult = () => {
     const stockAPI = `https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=${state.searchQuery}&apikey=${APIKEY}`;
     const companyOverviewAPI = `https://www.alphavantage.co/query?function=OVERVIEW&symbol=${state.searchQuery}&apikey=${APIKEY}`;
     try {
-      //   const stockResponse = await (await fetch(stockAPI)).json();
-      const stockResponse = await (await fetch(stockAPI)).json();
-      const companyResponse = await (await fetch(companyOverviewAPI)).json();
+      // maybe pull out the double await and put it in a helper function/file e.g. the {userAPI} the ./userAPI
+      const stockResponse = await fetch(stockAPI);
+      const companyResponse = await fetch(companyOverviewAPI);
+      const stockResponsejson = await stockResponse.json();
+      const companyResponsejson = await companyResponse.json();
       const stockData = {
-        stockName: companyResponse["Name"],
-        equityType: companyResponse["AssetType"],
-        symbol: companyResponse["Symbol"],
-        price: stockResponse["Global Quote"]["05. price"],
-        sector: companyResponse["Sector"],
-        industry: companyResponse["Industry"],
-        description: companyResponse["Description"],
-        fiftyDayMovingAverage: companyResponse["50DayMovingAverage"],
-        oneYearHigh: companyResponse["52WeekHigh"],
-        oneYearLow: companyResponse["52WeekLow"],
-        analystTargetPrice: companyResponse["AnalystTargetPrice"],
-        currency: companyResponse["Currency"],
+        stockName: companyResponsejson["Name"],
+        equityType: companyResponsejson["AssetType"],
+        symbol: companyResponsejson["Symbol"],
+        price: stockResponsejson["Global Quote"]["05. price"],
+        sector: companyResponsejson["Sector"],
+        industry: companyResponsejson["Industry"],
+        description: companyResponsejson["Description"],
+        fiftyDayMovingAverage: companyResponsejson["50DayMovingAverage"],
+        oneYearHigh: companyResponsejson["52WeekHigh"],
+        oneYearLow: companyResponsejson["52WeekLow"],
+        analystTargetPrice: companyResponsejson["AnalystTargetPrice"],
+        currency: companyResponsejson["Currency"],
       };
       dispatch(stockSearchActions.setStockData(stockData));
       return stockData;

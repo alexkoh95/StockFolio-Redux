@@ -4,7 +4,9 @@
 const express = require("express");
 const app = express();
 const cors = require("cors");
-
+require("dotenv").config({
+  path: "/Users/AlexanderKoh_1/Documents/GitHub/StockFolio-Redux/.env",
+});
 const PORT = process.env.PORT || 5001;
 
 app.use(cors());
@@ -15,16 +17,16 @@ app.use(express.urlencoded({ extended: false }));
 //                      Database
 // ======================================================
 const connectToDatabase = require("./models/Database");
-
 const mongoURI = process.env.MONGO_URI;
+
 connectToDatabase(mongoURI);
 
 // ======================================================
 //                      Routes
 // ======================================================
 
-const signupUser = require("./routes/Router");
-app.use(signupUser);
+const allRoutes = require("./routes/Router");
+app.use(allRoutes);
 
 // ======================================================
 //                  Listener

@@ -1,17 +1,16 @@
 const mongoose = require("mongoose");
 
 const StockSchema = new mongoose.Schema({
-  stockPurchaseId: { type: String, required: true },
-  stockName: { type: String, required: true },
-  equityType: { type: String, required: true },
+  stock_name: { type: String, required: true },
+  equity_type: { type: String, required: true },
   symbol: { type: String, required: true },
-  priceBought: { type: Number, required: true },
-  totalShares: { type: Number, required: true },
+  price_bought: { type: Number, required: true },
+  total_shares: { type: Number, required: true },
   industry: { type: String, required: true },
   sector: { type: String, required: true },
-  valueAtTimeOfPurchase: { type: Number, required: true },
+  value_at_time_of_purchase: { type: Number, required: true },
   currency: { type: String, required: true },
-  isSold: { type: Boolean },
+  is_sold: { type: Boolean },
   dateBought: { type: Date },
 });
 

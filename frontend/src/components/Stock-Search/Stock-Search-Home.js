@@ -1,6 +1,5 @@
 import React from "react";
 import SideNavBar from "../Navbar/Side-Navbar";
-import StockPurchaseModal from "./Stock-Purchase-Modal";
 import StockSearchResult from "./Stock-Search-Result";
 
 const StockSearchHome = () => {

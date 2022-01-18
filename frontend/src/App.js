@@ -1,5 +1,3 @@
-import "./App.css";
-// import ExampleCounter from "./components/example/exampleCounter"
 import {
   BrowserRouter as Router,
   Route,
