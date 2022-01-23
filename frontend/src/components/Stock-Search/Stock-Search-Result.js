@@ -2,10 +2,6 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { stockSearchActions } from "../../slices/Stock-Search-Slice/Stock-Search-Slice";
 import StockSearchResultModal from "./Stock-Search-Result-Modal";
-// require("dotenv").config({
-//   path: "/Users/AlexanderKoh_1/Documents/GitHub/StockFolio-Redux/.env",
-// });
-// require("dotenv").config();
 
 const StockSearchResult = () => {
   const state = useSelector((state) => state.stockSearch);
@@ -13,10 +9,22 @@ const StockSearchResult = () => {
   const APIKEY = "TD5BNJPDBLJKBVAE";
 
   const displayStockSearchResults = () => {
-    if (state.stockData.length !== 0) {
+    if (state.stockData.length !== 0 && state.loading === false) {
       return <StockSearchResultModal />;
+    } else if (state.loading === true) {
+      return (
+        <div className="py-40 flex justify-center items-center">
+          <div className="w-40 h-40 border-t-4 border-b-4 border-indigo-700 rounded-full animate-spin"></div>
+        </div>
+      );
     } else {
-      return <div>Hello, this is supposed to be search results</div>;
+      return (
+        <div className=" py-40 px-40 ">
+          <div className="text-3xl font-bold leading-18 text-indigo-600 animate-pulse">
+            Your Search Results Will Display Here
+          </div>
+        </div>
+      );
     }
   };
 
@@ -24,7 +32,12 @@ const StockSearchResult = () => {
     dispatch(stockSearchActions.setStockSearchQuery(event.target.value));
   };
 
+  const handleLoading = () => {
+    dispatch(stockSearchActions.setLoadingOn());
+  };
+
   const handleSubmitSearchButton = async (event) => {
+    handleLoading();
     // dispatch(handleSubmitSearchStockData(APIKEY, state.searchQuery));
     const stockAPI = `https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=${state.searchQuery}&apikey=${APIKEY}`;
     const companyOverviewAPI = `https://www.alphavantage.co/query?function=OVERVIEW&symbol=${state.searchQuery}&apikey=${APIKEY}`;
@@ -48,6 +61,7 @@ const StockSearchResult = () => {
         analystTargetPrice: companyResponsejson["AnalystTargetPrice"],
         currency: companyResponsejson["Currency"],
       };
+      dispatch(stockSearchActions.setLoadingOff());
       dispatch(stockSearchActions.setStockData(stockData));
       return stockData;
     } catch (error) {

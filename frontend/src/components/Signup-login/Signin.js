@@ -7,6 +7,8 @@ const Signin = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
+  const state = useSelector((state) => state.signin);
+
   const handleEmailChange = (event) => {
     dispatch(signinActions.setEmailAddress(event.target.value));
   };
@@ -15,9 +17,21 @@ const Signin = () => {
     dispatch(signinActions.setPassword(event.target.value));
   };
 
-  const handleSubmitButton = (event) => {
+  const handleSigninSubmitButton = async (event) => {
     event.preventDefault();
-    console.log("Hello this submit is working");
+    const body = { email: state.email, password: state.password };
+    const getLogin = await fetch("http://localhost:5001/signin", {
+      method: "POST",
+      body: JSON.stringify(body),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    const data = await getLogin.json();
+    if (data.signInSuccessful === "Success") {
+      dispatch(signinActions.setUserSignedin(data.userInformation));
+      navigate("/stocksearch");
+    }
   };
 
   return (
@@ -43,7 +57,7 @@ const Signin = () => {
           <button
             className="block bg-indigo-600 text-white hover:bg-indigo-700 w-full p-3 rounded mb-4"
             type="submit"
-            onClick={handleSubmitButton}
+            onClick={handleSigninSubmitButton}
           >
             Submit
           </button>

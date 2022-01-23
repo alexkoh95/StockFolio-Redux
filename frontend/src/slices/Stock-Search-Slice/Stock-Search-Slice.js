@@ -13,6 +13,7 @@ const initialState = {
   stockToPurchase: [],
   sharesToPurchase: "",
   totalValueOfSharesToPurchase: "",
+  loading: false,
 };
 
 export const stockSearchSlice = createSlice({
@@ -38,6 +39,12 @@ export const stockSearchSlice = createSlice({
       console.log("This is purchaseStockButton");
       submitSharesToDataBase(state.stockData, state.sharesToPurchase);
       state.sharesToPurchase = 0;
+    },
+    setLoadingOn(state, action) {
+      state.loading = true;
+    },
+    setLoadingOff(state, action) {
+      state.loading = false;
     },
   },
 });

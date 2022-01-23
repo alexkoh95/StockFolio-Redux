@@ -1,7 +1,14 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { signinActions } from "../../slices/Signup-login-slice/Signin-slice";
 
 const SideNavBar = () => {
+  const dispatch = useDispatch();
+  const handleLogoutButton = () => {
+    console.log("this is logout button");
+    dispatch(signinActions.handleSignoutButton());
+  };
   return (
     <div className="container fixed h-screen w-60 bg-white bg-opacity-20 shadow-lg text-gray-700">
       <div className="pt-12 px-10">
@@ -108,7 +115,9 @@ const SideNavBar = () => {
             />
           </svg>
           <span className="inline-flex ml-3">
-            <Link to="/signout"> Logout </Link>
+            <Link to="/signout" onClick={handleLogoutButton}>
+              Logout
+            </Link>
           </span>
         </div>
       </div>

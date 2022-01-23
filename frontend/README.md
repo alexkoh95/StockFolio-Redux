@@ -18,6 +18,9 @@
 - Mocha
 - Chai
 - Chaihttp
+- Bcrypt
+- jsonwebtoken
+- cookie-parser
 
 ### Installing Tailwind CSS
 

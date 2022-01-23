@@ -1,6 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const initialState = { email: "", name: "", password: "", submit: 0 };
+const initialState = {
+  email: "",
+  name: "",
+  password: "",
+  signedin: false,
+};
 
 export const signinSlice = createSlice({
   name: "SignIn",
@@ -15,9 +20,12 @@ export const signinSlice = createSlice({
     setPassword(state, action) {
       state.password = action.payload;
     },
-    setSubmitButton(state, action) {
-      state.submit += 1;
-      console.log("Submit button clicked");
+    setUserSignedin(state, action) {
+      state.signedin = true;
+      state.signedinUserInformation = action.payload;
+    },
+    handleSignoutButton(state, action) {
+      state.signedin = false;
     },
   },
 });

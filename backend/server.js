@@ -7,6 +7,9 @@ const cors = require("cors");
 require("dotenv").config({
   path: "/Users/AlexanderKoh_1/Documents/GitHub/StockFolio-Redux/.env",
 });
+const cookieParser = require("cookie-parser");
+app.use(cookieParser());
+
 const PORT = process.env.PORT || 5001;
 
 app.use(cors());
@@ -37,22 +40,3 @@ app.listen(PORT, () => {
 });
 
 module.exports = app;
-
-/*
-Creating Sessions
-
-const store = new MongoDBStore({
-  uri: mongoURI,
-  collection: "currentSessions",
-});
-
-app.use(
-  session({
-    secret: "secret",
-    resave: false,
-    saveUninitialized: false,
-    store: store,
-    maxAge: 24 * 60 * 60 * 1000,
-  })
-);
-*/
