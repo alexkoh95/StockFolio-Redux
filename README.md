@@ -60,23 +60,19 @@ Backend:
 #### Log Out
 - Logout button that redirects to login page ✅
 
-
-## Project Screen Shot(s) (WORK IN PROGRESS)
-
-
 ## Key Learnings:
 
-1. Can't really use req.body in GET requests
+#### 1. Can't really use req.body in GET requests
 If you need to filter results in your Route you should can use the header instead (e.g. line 8: req.headers.header_unique_user_id in StockFolio-Redux/backend/routes/Get-User-Stock-Information.js)
 
-2. Comments from Hodlnaut final round interview:
+#### 2. Comments from Hodlnaut final round interview:
 
-2a. My Redux is not very Redux-y. 
+#### 2a. My Redux is not very Redux-y. 
 This is because I was running into issues with CreateAsyncThunk and moved my fetch/axios calls into the frontend. 
 
 Issue has been resolved - CreateAsyncThunk was returning errors because I was not passing data into it correctly (e.g. the second params in CreateAsyncThunk is reserved for thunkAPI, an object containing all of the parameters that are nromally passed to a Redux thunk function). Solution was to create an object containing the data I wanted to pass into the asyncThunk (searchOptions, line 13 StockFolio-Redux/frontend/src/components/Stock-Search/Stock-Search-Result.js) and pass it in (line 44, same file as in line 13) 
 
-2b. Think about refactoring the code to use the Presentation-Container
+#### 2b. Think about refactoring the code to use the Presentation-Container
 
 This is the principle of dividing your components into "Presentational" and "Container" components
 
@@ -86,6 +82,29 @@ This is the principle of dividing your components into "Presentational" and "Con
 
 While I do agree that it's good to separate it, Dan Abramov has suggested that we don't split components like this anymore (at least not as dogmatically and fervently as some might: https://medium.com/@dan_abramov/smart-and-dumb-components-7ca2f9a7c7d0).Presentation-Container components are useful because it allows you to separate complex stateful logic from other aspects of the component. Hooks now can do the same things without the arbitrary division. 
 
-3. Things I will need to work on 
+#### 3. Things I will need to work on 
 - In my Stock API calls I have two awaits to fetch stock data. This slows down the AsyncThunk. What I could do instead is use Promise.all(). (Lines 15-16 StockFolio-Redux/frontend/src/slices/Stock-Search-Slice/Stock-Search-Slice.js)
+
+
+
+## Project Screen Shot(s) (WORK IN PROGRESS)
+
+### 1. EntryPage
+![EntryPage](https://imgur.com/NeDipDR.jpg)
+
+
+### 2. SignUp Page
+![Signup](https://imgur.com/xcRE8Rf.jpg)
+
+### 3. SignIn Page (with Error Message)
+![SignIn](https://imgur.com/DA5O4hB.jpg)
+
+### 4. Landing Page After Login
+![LandingPageAfterLogin](https://imgur.com/gWH5Fmw.jpg)
+
+### 6. Search Result (Coca Cola)
+![SearchResult](https://imgur.com/3N1cHGo.jpg)
+
+### 7. SignOut Page (Users will be redirect to Signin in 3 seconds after clicking on signout)
+![SignIn](https://imgur.com/5WLflM4.jpg)
 
