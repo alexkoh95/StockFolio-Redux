@@ -5,12 +5,17 @@ import { stockSearchActions } from "../../slices/Stock-Search-Slice/Stock-Search
 const StockSearchResultModal = () => {
   const state = useSelector((state) => state.stockSearch);
   const dispatch = useDispatch();
+  const getUserInfo = useSelector((state) => state);
+  const userInfoForPurchase = {
+    user_unique_id: getUserInfo.signin.signedinUserInformation.user_unique_id,
+    cashInAccount: getUserInfo.signin.signedinUserInformation.cashInAccount,
+  };
 
   const moment = require("moment");
   const todayDate = moment().format("YYYY-MM-DD");
 
   const handlePurchaseStockButton = () => {
-    dispatch(stockSearchActions.purchaseStockButton());
+    dispatch(stockSearchActions.purchaseStockButton(userInfoForPurchase));
   };
 
   const handleShareChange = (event) => {
@@ -18,11 +23,10 @@ const StockSearchResultModal = () => {
   };
 
   const displayTotalValueOfSharesToPurchase = () => {
-    console.log(state.sharesToPurchase);
     if (state.sharesToPurchase) {
       return <div>{state.totalValueOfSharesToPurchase}</div>;
     } else {
-      return <div>... Calculating ...</div>;
+      return <div>Please Enter Total Shares To Purchase</div>;
     }
   };
   return (

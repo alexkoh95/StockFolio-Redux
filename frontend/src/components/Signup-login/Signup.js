@@ -11,6 +11,8 @@ const Signup = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
+  console.log(signupActions);
+
   const handleEmailChange = (event) => {
     dispatch(signupActions.setSignupEmailAddress(event.target.value));
   };

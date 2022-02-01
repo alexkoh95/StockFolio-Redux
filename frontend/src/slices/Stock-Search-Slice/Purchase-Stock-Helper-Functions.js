@@ -8,13 +8,12 @@ export const getTodayDate = () => {
 
 export const getValueOfShares = (sharesToPurchase, price) => {
   let totalValueOfShares = parseFloat(sharesToPurchase) * parseFloat(price);
-  console.log(totalValueOfShares);
   return totalValueOfShares;
 };
 
-export const submitSharesToDataBase = (state, sharesToPurchase) => {
+export const submitSharesToDataBase = (state, sharesToPurchase, action) => {
+  const user_unique_id = action.payload.user_unique_id;
   const stock_name = state.stockName;
-  console.log(state.stockName);
   const equity_type = state.equityType;
   const symbol = state.symbol;
   const price_bought = state.price;
@@ -25,6 +24,8 @@ export const submitSharesToDataBase = (state, sharesToPurchase) => {
     sharesToPurchase,
     state.price
   );
+  const cashInAccount =
+    action.payload.cashInAccount - value_at_time_of_purchase;
   const currency = state.currency;
   const is_sold = false;
   const date_bought = getTodayDate();
@@ -40,6 +41,8 @@ export const submitSharesToDataBase = (state, sharesToPurchase) => {
     currency,
     is_sold,
     date_bought,
+    user_unique_id,
+    cashInAccount,
   };
   console.log(submitToDataBase);
   axios

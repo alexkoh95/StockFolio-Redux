@@ -1,10 +1,41 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-// import PurchaseStockHelperFunctions from "./Purchase-Stock-Helper-Functions"
 import {
   getTodayDate,
   getValueOfShares,
   submitSharesToDataBase,
 } from "./Purchase-Stock-Helper-Functions";
+const axios = require("axios");
+
+export const handleSubmitSearchStockData = createAsyncThunk(
+  "user/searchStockData",
+  async (searchData) => {
+    const stockAPI = `https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=${searchData.SearchQuery}&apikey=${searchData.APIKEY}`;
+    const companyOverviewAPI = `https://www.alphavantage.co/query?function=OVERVIEW&symbol=${searchData.SearchQuery}&apikey=${searchData.APIKEY}`;
+    try {
+      const stockResponse = await fetch(stockAPI);
+      const companyResponse = await fetch(companyOverviewAPI);
+      const stockResponsejson = await stockResponse.json();
+      const companyResponsejson = await companyResponse.json();
+      const stockData = {
+        stockName: companyResponsejson["Name"],
+        equityType: companyResponsejson["AssetType"],
+        symbol: companyResponsejson["Symbol"],
+        price: stockResponsejson["Global Quote"]["05. price"],
+        sector: companyResponsejson["Sector"],
+        industry: companyResponsejson["Industry"],
+        description: companyResponsejson["Description"],
+        fiftyDayMovingAverage: companyResponsejson["50DayMovingAverage"],
+        oneYearHigh: companyResponsejson["52WeekHigh"],
+        oneYearLow: companyResponsejson["52WeekLow"],
+        analystTargetPrice: companyResponsejson["AnalystTargetPrice"],
+        currency: companyResponsejson["Currency"],
+      };
+      return stockData;
+    } catch (error) {
+      console.log("There has been an error in fetching stock data: ", error);
+    }
+  }
+);
 
 const initialState = {
   stockData: [],
@@ -14,6 +45,7 @@ const initialState = {
   sharesToPurchase: "",
   totalValueOfSharesToPurchase: "",
   loading: false,
+  userID: "",
 };
 
 export const stockSearchSlice = createSlice({
@@ -21,11 +53,7 @@ export const stockSearchSlice = createSlice({
   initialState,
   reducers: {
     setStockSearchQuery(state, action) {
-      console.log("this is action: ", action);
       state.searchQuery = action.payload;
-    },
-    setStockData(state, action) {
-      state.stockData = action.payload;
     },
     setTotalSharesToPuchase(state, action) {
       state.sharesToPurchase = action.payload;
@@ -33,11 +61,9 @@ export const stockSearchSlice = createSlice({
         state.sharesToPurchase,
         state.stockData.price
       );
-      console.log(state.totalValueOfSharesToPurchase);
     },
     purchaseStockButton(state, action) {
-      console.log("This is purchaseStockButton");
-      submitSharesToDataBase(state.stockData, state.sharesToPurchase);
+      submitSharesToDataBase(state.stockData, state.sharesToPurchase, action);
       state.sharesToPurchase = 0;
     },
     setLoadingOn(state, action) {
@@ -47,56 +73,22 @@ export const stockSearchSlice = createSlice({
       state.loading = false;
     },
   },
+  extraReducers: (builder) => {
+    builder
+      .addCase(handleSubmitSearchStockData.pending, (state, action) => {
+        state.status = "loading";
+      })
+      .addCase(handleSubmitSearchStockData.fulfilled, (state, action) => {
+        state.status = "search_success";
+        console.log("This is action.payload: ", action.payload);
+        state.stockData = action.payload;
+      })
+      .addCase(handleSubmitSearchStockData.rejected, (state, action) => {
+        state.status = "stock_search_failed";
+      });
+  },
 });
 
 export const stockSearchActions = stockSearchSlice.actions;
 
 export default stockSearchSlice.reducer;
-
-// export const handleSubmitSearchStockData = createAsyncThunk(
-//   "user/searchStockData",
-//   async (APIKEY, searchQuery) => {
-//     const stockAPI = `https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=${searchQuery}&apikey=${APIKEY}`;
-//     const companyOverviewAPI = `https://www.alphavantage.co/query?function=OVERVIEW&symbol=${searchQuery}&apikey=${APIKEY}`;
-//     try {
-//       // const stockResponse = await (await fetch(stockAPI)).json();
-//       const stockResponse = await fetch(stockAPI);
-//       const companyResponse = await fetch(companyOverviewAPI);
-//       const stockResponsejson = await stockResponse.json();
-//       const companyResponsejson = await companyResponse.json();
-//       const stockData = {
-//         stockName: companyResponsejson["Name"],
-//         equityType: companyResponsejson["AssetType"],
-//         symbol: companyResponsejson["Symbol"],
-//         price: stockResponsejson["Global Quote"]["05. price"],
-//         sector: companyResponsejson["Sector"],
-//         industry: companyResponsejson["Industry"],
-//         description: companyResponsejson["Description"],
-//         fiftyDayMovingAverage: companyResponsejson["50DayMovingAverage"],
-//         oneYearHigh: companyResponsejson["52WeekHigh"],
-//         oneYearLow: companyResponsejson["52WeekLow"],
-//         analystTargetPrice: companyResponsejson["AnalystTargetPrice"],
-//         currency: companyResponsejson["Currency"],
-//       };
-//       console.log("This is stockData ", stockData);
-//       return stockData;
-//     } catch (error) {
-//       console.log("There has been an error in fetching stock data: ", error);
-//     }
-//   }
-// );
-
-// extraReducers(builder) {
-//   builder
-//     .addCase(handleSubmitSearchStockData.pending, (state, action) => {
-//       state.status = "loading";
-//     })
-//     .addCase(handleSubmitSearchStockData.fulfilled, (state, action) => {
-//       state.status = "search_success";
-//       console.log("This is action.payload: ", action.payload);
-//       state.stockData.push(action.payload);
-//     })
-//     .addCase(handleSubmitSearchStockData.rejected, (state, action) => {
-//       state.status = "stock_search_failed";
-//     });
-// },

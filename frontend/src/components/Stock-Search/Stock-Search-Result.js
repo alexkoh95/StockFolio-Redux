@@ -1,12 +1,19 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { stockSearchActions } from "../../slices/Stock-Search-Slice/Stock-Search-Slice";
+import {
+  stockSearchActions,
+  handleSubmitSearchStockData,
+} from "../../slices/Stock-Search-Slice/Stock-Search-Slice";
 import StockSearchResultModal from "./Stock-Search-Result-Modal";
 
 const StockSearchResult = () => {
   const state = useSelector((state) => state.stockSearch);
   const dispatch = useDispatch();
   const APIKEY = "TD5BNJPDBLJKBVAE";
+  const searchOptions = {
+    APIKEY: APIKEY,
+    SearchQuery: state.searchQuery,
+  };
 
   const displayStockSearchResults = () => {
     if (state.stockData.length !== 0 && state.loading === false) {
@@ -32,42 +39,14 @@ const StockSearchResult = () => {
     dispatch(stockSearchActions.setStockSearchQuery(event.target.value));
   };
 
-  const handleLoading = () => {
+  const handleSubmitSearchButton = async (event) => {
     dispatch(stockSearchActions.setLoadingOn());
+    dispatch(handleSubmitSearchStockData(searchOptions));
   };
 
-  const handleSubmitSearchButton = async (event) => {
-    handleLoading();
-    // dispatch(handleSubmitSearchStockData(APIKEY, state.searchQuery));
-    const stockAPI = `https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=${state.searchQuery}&apikey=${APIKEY}`;
-    const companyOverviewAPI = `https://www.alphavantage.co/query?function=OVERVIEW&symbol=${state.searchQuery}&apikey=${APIKEY}`;
-    try {
-      // maybe pull out the double await and put it in a helper function/file e.g. the {userAPI} the ./userAPI
-      const stockResponse = await fetch(stockAPI);
-      const companyResponse = await fetch(companyOverviewAPI);
-      const stockResponsejson = await stockResponse.json();
-      const companyResponsejson = await companyResponse.json();
-      const stockData = {
-        stockName: companyResponsejson["Name"],
-        equityType: companyResponsejson["AssetType"],
-        symbol: companyResponsejson["Symbol"],
-        price: stockResponsejson["Global Quote"]["05. price"],
-        sector: companyResponsejson["Sector"],
-        industry: companyResponsejson["Industry"],
-        description: companyResponsejson["Description"],
-        fiftyDayMovingAverage: companyResponsejson["50DayMovingAverage"],
-        oneYearHigh: companyResponsejson["52WeekHigh"],
-        oneYearLow: companyResponsejson["52WeekLow"],
-        analystTargetPrice: companyResponsejson["AnalystTargetPrice"],
-        currency: companyResponsejson["Currency"],
-      };
-      dispatch(stockSearchActions.setLoadingOff());
-      dispatch(stockSearchActions.setStockData(stockData));
-      return stockData;
-    } catch (error) {
-      console.log("There has been an error in fetching stock data: ", error);
-    }
-  };
+  useEffect(() => {
+    dispatch(stockSearchActions.setLoadingOff());
+  }, [state.stockData]);
 
   return (
     <div>

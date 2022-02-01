@@ -12,6 +12,7 @@ const StockSchema = new mongoose.Schema({
   currency: { type: String, required: true },
   is_sold: { type: Boolean },
   dateBought: { type: Date },
+  user_unique_id: { type: String },
 });
 
 const StocksModel = mongoose.model("StocksModel", StockSchema);

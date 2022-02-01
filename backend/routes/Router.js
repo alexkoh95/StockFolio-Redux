@@ -14,4 +14,8 @@ router.use(signinRoute);
 const stockPurchaseRoute = require("./Stock-Purchase-Route");
 router.use(stockPurchaseRoute);
 
+// Get User Stock Information
+const getUserStockInformation = require("./Get-User-Stock-Information");
+router.use(getUserStockInformation);
+
 module.exports = router;

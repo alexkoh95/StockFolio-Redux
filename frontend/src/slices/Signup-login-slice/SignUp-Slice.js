@@ -38,7 +38,7 @@ export const signupSlice = createSlice({
       state.signupPassword = action.payload;
     },
   },
-  extraReducers(builder) {
+  extraReducers: (builder) => {
     builder
       .addCase(submitUserDetails.pending, (state, action) => {
         state.status = "loading";

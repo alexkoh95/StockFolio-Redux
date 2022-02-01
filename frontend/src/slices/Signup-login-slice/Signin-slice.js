@@ -5,6 +5,7 @@ const initialState = {
   name: "",
   password: "",
   signedin: false,
+  signedinUserInformation: "",
 };
 
 export const signinSlice = createSlice({

@@ -1,18 +1,27 @@
 const express = require("express");
 const router = express.Router();
 
-const StocksModel = require("../models/Stocks-Model");
+const { StocksModel } = require("../models/Stocks-Model");
+const UserModel = require("../models/User-Model");
 
 router.put("/stocksearch", async (req, res) => {
-  await StocksModel.StocksModel.create(req.body);
-  res.json({
-    status: "ok",
-    msg: `stock purchase successful with following info: ${req.body}`,
+  const newStock = await new StocksModel(req.body);
+  newStock.save();
+  await UserModel.findOneAndUpdate(
+    { user_unique_id: req.body.user_unique_id },
+    { $push: { listOfStocks: req.body } }
+  );
+  const user = await UserModel.findOne({
+    user_unique_id: req.body.user_unique_id,
   });
-  // find by userID
-  // insert req.body into it - req.body is the stockData object
-  // e.g. db.exampleCollection.upDateOne({_id: "ThisisTheUserIDtoVerify"}, {$push: {req.body}})
-  // this should go into servcies (find User by ID --> a user method)
+  const cashInAccount = user.cashInAccount;
+  console.log(cashInAccount);
+  const cashRemaining = cashInAccount - req.body.value_at_time_of_purchase;
+
+  await UserModel.findOneAndUpdate(
+    { user_unique_id: req.body.user_unique_id },
+    { $set: { cashInAccount: cashRemaining } }
+  );
   console.log("This is stock purchase, with this info: ", req.body);
 });
 

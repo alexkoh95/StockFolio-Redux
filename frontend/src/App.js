@@ -15,6 +15,7 @@ import Signup from "./components/Signup-login/Signup";
 import HomePage from "./components/Navbar/Home-Page";
 import StockSearchHome from "./components/Stock-Search/Stock-Search-Home";
 import Dashboard from "./components/Dashboard/Dashboard";
+import Signout from "./components/Signup-login/Signout";
 
 function App() {
   const state = useSelector((state) => state);
@@ -30,6 +31,7 @@ function App() {
             <Route path="/signin" exact element={<Signin />}></Route>
             <Route path="/signup" exact element={<Signup />}></Route>
             <Route path="/homepage" exact element={<HomePage />}></Route>
+            <Route path="/signout" exact element={<Signout />}></Route>
             <Route exact path="" element={<PrivateRoute />}>
               <Route exact path="stocksearch" element={<StockSearchHome />} />
               <Route exact path="dashboard" element={<Dashboard />} />

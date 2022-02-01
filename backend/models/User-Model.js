@@ -11,6 +11,8 @@ const UserSchema = new mongoose.Schema(
     password: { type: String, required: true },
     name: { type: String, required: true },
     listOfStocks: [stocks.StockSchema],
+    user_unique_id: { type: String, required: true },
+    cashInAccount: { type: Number, default: 500000 },
   },
   { collection: "Users" }
 );

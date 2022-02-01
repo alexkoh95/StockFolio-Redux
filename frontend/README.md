@@ -10,6 +10,8 @@
 - Reduxjs/toolkit
 - Tailwind CSS
 - Moment.js
+- Ag-Grid
+- Finnhub api
 
 - Express
 - Cors
@@ -21,6 +23,8 @@
 - Bcrypt
 - jsonwebtoken
 - cookie-parser
+- UUID
+- Finnhub api
 
 ### Installing Tailwind CSS
 
