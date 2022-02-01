@@ -65,14 +65,14 @@ Backend:
 #### 1. Can't really use req.body in GET requests
 If you need to filter results in your Route you should can use the header instead (e.g. line 8: req.headers.header_unique_user_id in StockFolio-Redux/backend/routes/Get-User-Stock-Information.js)
 
-##### 2. Comments from Hodlnaut final round interview:
+#### 2. Comments from Hodlnaut final round interview:
 
-##### 2a. My Redux is not very Redux-y. 
+#### 2a. My Redux is not very Redux-y. 
 This is because I was running into issues with CreateAsyncThunk and moved my fetch/axios calls into the frontend. 
 
 Issue has been resolved - CreateAsyncThunk was returning errors because I was not passing data into it correctly (e.g. the second params in CreateAsyncThunk is reserved for thunkAPI, an object containing all of the parameters that are nromally passed to a Redux thunk function). Solution was to create an object containing the data I wanted to pass into the asyncThunk (searchOptions, line 13 StockFolio-Redux/frontend/src/components/Stock-Search/Stock-Search-Result.js) and pass it in (line 44, same file as in line 13) 
 
-##### 2b. Think about refactoring the code to use the Presentation-Container
+#### 2b. Think about refactoring the code to use the Presentation-Container
 
 This is the principle of dividing your components into "Presentational" and "Container" components
 
