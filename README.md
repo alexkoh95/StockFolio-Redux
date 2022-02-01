@@ -63,6 +63,26 @@ Backend:
 
 ## Project Screen Shot(s) (WORK IN PROGRESS)
 
+### 1. EntryPage
+![EntryPage](https://imgur.com/NeDipDR.jpg)
+
+
+### 2. SignUp Page
+![Signup](https://imgur.com/xcRE8Rf.jpg)
+
+### 3. SignIn Page (with Error Message)
+![SignIn](https://imgur.com/DA5O4hB.jpg)
+
+### 4. Landing Page After Login
+![LandingPageAfterLogin](https://imgur.com/gWH5Fmw.jpg)
+
+### 6. Search Result (Coca Cola)
+![SearchResult](https://imgur.com/3N1cHGo.jpg)
+
+### 7. SignOut Page (Users will be redirect to Signin in 3 seconds after clicking on signout)
+![SignIn](https://imgur.com/5WLflM4.jpg)
+
+
 
 ## Key Learnings:
 
