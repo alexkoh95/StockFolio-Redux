@@ -31,6 +31,21 @@ const Signin = () => {
     if (data.signInSuccessful === "Success") {
       dispatch(signinActions.setUserSignedin(data.userInformation));
       navigate("/stocksearch");
+    } else {
+      dispatch(signinActions.setIncorrectUserInformation());
+    }
+  };
+
+  const displayIncorrectInformationErrorMessage = () => {
+    console.log(state.incorrectUserInformation);
+    if (state.incorrectUserInformation === true) {
+      return (
+        <div className="text-red-500">
+          Error: Incorrect Email and/or Password
+        </div>
+      );
+    } else {
+      return;
     }
   };
 
@@ -62,6 +77,7 @@ const Signin = () => {
             Submit
           </button>
         </form>
+        {displayIncorrectInformationErrorMessage()}
       </div>
     </div>
   );

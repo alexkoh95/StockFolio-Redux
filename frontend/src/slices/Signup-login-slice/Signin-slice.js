@@ -25,6 +25,9 @@ export const signinSlice = createSlice({
       state.signedin = true;
       state.signedinUserInformation = action.payload;
     },
+    setIncorrectUserInformation(state, action) {
+      state.incorrectUserInformation = true;
+    },
     handleSignoutButton(state, action) {
       state.signedin = false;
     },

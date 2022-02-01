@@ -15,7 +15,6 @@ router.put("/stocksearch", async (req, res) => {
     user_unique_id: req.body.user_unique_id,
   });
   const cashInAccount = user.cashInAccount;
-  console.log(cashInAccount);
   const cashRemaining = cashInAccount - req.body.value_at_time_of_purchase;
 
   await UserModel.findOneAndUpdate(

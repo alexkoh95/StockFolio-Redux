@@ -26,9 +26,6 @@ const Dashboard = () => {
 
   useEffect(async () => {
     dispatch(getUserStockInformation(user_unique_id));
-    console.log(
-      state.dashboard.userStockInformation.userInformation.listOfStocks
-    );
     getTodayStockPrice(
       state.dashboard.userStockInformation.userInformation.listOfStockss
     );
