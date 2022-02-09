@@ -70,7 +70,7 @@ If you need to filter results in your Route you should can use the header instea
 #### 2a. My Redux is not very Redux-y. 
 This is because I was running into issues with CreateAsyncThunk and moved my fetch/axios calls into the frontend. 
 
-Issue has been resolved - CreateAsyncThunk was returning errors because I was not passing data into it correctly (e.g. the second params in CreateAsyncThunk is reserved for thunkAPI, an object containing all of the parameters that are nromally passed to a Redux thunk function). Solution was to create an object containing the data I wanted to pass into the asyncThunk (searchOptions, line 13 StockFolio-Redux/frontend/src/components/Stock-Search/Stock-Search-Result.js) and pass it in (line 44, same file as in line 13) 
+Issue has been resolved - CreateAsyncThunk was returning errors because I was not passing data into it correctly (e.g. the second params in CreateAsyncThunk is reserved for thunkAPI, an object containing all of the parameters that are normally passed to a Redux thunk function). Solution was to create an object containing the data I wanted to pass into the asyncThunk (searchOptions, line 13 StockFolio-Redux/frontend/src/components/Stock-Search/Stock-Search-Result.js) and pass it in (line 44, same file as in line 13) 
 
 #### 2b. Think about refactoring the code to use the Presentation-Container
 
@@ -80,7 +80,7 @@ This is the principle of dividing your components into "Presentational" and "Con
 
 **Container Components:** concerned with how things work, provides the data and behaviour to presentational or other container components. Call Flux actions and provides these as callbacks to the presentational components. Are often stateful. Examples include _UserPage, FollowersSideBar, StoryContainer, FollowedUserList_
 
-While I do agree that it's good to separate it, Dan Abramov has suggested that we don't split components like this anymore (at least not as dogmatically and fervently as some might: https://medium.com/@dan_abramov/smart-and-dumb-components-7ca2f9a7c7d0).Presentation-Container components are useful because it allows you to separate complex stateful logic from other aspects of the component. Hooks now can do the same things without the arbitrary division. 
+While I do agree that it's good to separate it, Dan Abramov has suggested that we don't split components like this anymore (at least not as dogmatically and fervently as some might: https://medium.com/@dan_abramov/smart-and-dumb-components-7ca2f9a7c7d0). Presentation-Container components are useful because it allows you to separate complex stateful logic from other aspects of the component. Hooks now can do the same things without the arbitrary division. 
 
 #### 3. Things I will need to work on 
 - In my Stock API calls I have two awaits to fetch stock data. This slows down the AsyncThunk. What I could do instead is use Promise.all(). (Lines 15-16 StockFolio-Redux/frontend/src/slices/Stock-Search-Slice/Stock-Search-Slice.js)
