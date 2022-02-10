@@ -8,7 +8,7 @@
 Personal investing simulation. This is a recreation of my capstone project from GA (https://github.com/alexkoh95/StockFolio). 
 
 The main goals of the project include:
-1. Learn Redux and how it acts as a stage management tool
+1. Learn Redux and how it acts as a state management tool
 2. Practice creating a full stack application using a MERN stack
 
 ### Dependencies:
